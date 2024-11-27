@@ -1,0 +1,50 @@
+services:
+  # nodejs:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: nodejs
+  #   ports:
+  #     - "3000:3000"
+
+  # redis:
+  #   image: redis/redis-stack-server:latest
+  #   container_name: redis
+  #   restart: always
+  #   environment:
+  #     REDIS_ARGS: "--requirepass admin"
+  #   ports:
+  #     - "6379:6379"
+
+  db:
+    container_name: backoffice.mysql
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    volumes:
+      - ./.docker/mysql/schemas:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+  # otel-collector:
+  #   container_name: otel-collector
+  #   image: otel/opentelemetry-collector-contrib
+  #   command: [ "--config=/etc/otel-collector.yaml" ]
+  #   volumes:
+  #     - ./.docker/otel-collector.yaml:/etc/otel-collector.yaml
+  #   ports:
+  #     - "4317:4317"  # otlp grpc
+  #     - "4318:4318"  # otlp http
+  #     - "8889:8889"  # prometheus
+
+  # jeager:
+  #   image: jaegertracing/all-in-one:latest
+  #   container_name: jaeger
+  #   ports:
+  #     - "16686:16686"
+
+  # victoria-metrics:
+  #   image: victoriametrics/victoria-metrics:latest
+  #   container_name: victoria-metrics
+  #   ports:
+  #     - "8428:8428"
