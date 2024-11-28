@@ -32,7 +32,7 @@ export class PayableRepository {
   async update({ id, data }: { id: string; data: UpdatePayableDto }) {
     return await this.prisma.payable.update({
       where: { id },
-      data,
+      data: { ...data },
     })
   }
 

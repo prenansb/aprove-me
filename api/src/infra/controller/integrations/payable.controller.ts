@@ -1,9 +1,6 @@
-import type {
-  CreatePayableDto,
-  PayableDto,
-} from '@/infra/dtos/create-payable.dto'
-import type { IdParamDto } from '@/infra/dtos/general.dto'
-import type { UpdatePayableDto } from '@/infra/dtos/update-payable.dto'
+import { CreatePayableDto, PayableDto } from '@/infra/dtos/create-payable.dto'
+import { IdParamDto } from '@/infra/dtos/general.dto'
+import { UpdatePayableDto } from '@/infra/dtos/update-payable.dto'
 import { CreatePayableAndAssignorUseCase } from '@/use-cases/integrations/create-payable-and-assignor.use-case'
 import { CreatePayableUseCase } from '@/use-cases/integrations/create-payable.use-case'
 import { DeletePayableUseCase } from '@/use-cases/integrations/delete-payable.use-case'

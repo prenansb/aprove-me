@@ -1,4 +1,4 @@
-import type { AssignorDto } from '@/infra/dtos/create-payable.dto'
+import type { CreateAssignorDto } from '@/infra/dtos/create-assignor.dto'
 import { AssignorRepository } from '@/infra/repository/prisma/assignor.repository'
 import { Inject, Injectable } from '@nestjs/common'
 
@@ -9,7 +9,7 @@ export class CreateAssignorUseCase {
     private readonly assignorRepository: AssignorRepository
   ) {}
 
-  async exec(assignor: AssignorDto) {
+  async exec(assignor: CreateAssignorDto) {
     return await this.assignorRepository.create(assignor)
   }
 }

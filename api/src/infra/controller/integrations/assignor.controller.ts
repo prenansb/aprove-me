@@ -1,6 +1,6 @@
-import type { AssignorDto } from '@/infra/dtos/create-payable.dto'
-import type { IdParamDto } from '@/infra/dtos/general.dto'
-import type { UpdateAssignorDto } from '@/infra/dtos/update-assignor.dto'
+import { CreateAssignorDto } from '@/infra/dtos/create-assignor.dto'
+import { IdParamDto } from '@/infra/dtos/general.dto'
+import { UpdateAssignorDto } from '@/infra/dtos/update-assignor.dto'
 import { CreateAssignorUseCase } from '@/use-cases/integrations/create-assignor.use-case'
 import { DeleteAssignorUseCase } from '@/use-cases/integrations/delete-assignor.use-case'
 import { GetAssignorByIdUseCase } from '@/use-cases/integrations/get-assignor-by-id.use-case'
@@ -30,8 +30,8 @@ export class AssignorController {
   ) {}
 
   @Post('/create')
-  async create(@Body() data: AssignorDto) {
-    return await this.createAssignorUseCase.exec(data)
+  async create(@Body() data: CreateAssignorDto) {
+    return await this.createAssignorUseCase.exec({ ...data })
   }
 
   @Get('/:id')

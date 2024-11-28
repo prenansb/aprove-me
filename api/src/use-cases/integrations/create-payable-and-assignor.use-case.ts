@@ -17,8 +17,6 @@ export class CreatePayableAndAssignorUseCase {
       id: assignor.id,
     })
 
-    console.log(assignorExists)
-
     if (!assignorExists) {
       await this.assignorRepository.create(assignor)
     }

@@ -1,18 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
 import type { UpdateAssignorDto } from '@/infra/dtos/update-assignor.dto'
+import type { CreateAssignorDto } from '@/infra/dtos/create-assignor.dto'
 
 @Injectable()
 export class AssignorRepository {
   constructor(@Inject(PrismaService) private prisma: PrismaService) {}
 
-  async create(assignorData: {
-    id: string
-    document: string
-    email: string
-    phone: string
-    name: string
-  }) {
+  async create(assignorData: CreateAssignorDto) {
     const assignor = await this.prisma.assignor.create({
       data: assignorData,
     })
@@ -31,7 +26,10 @@ export class AssignorRepository {
   }
 
   async update({ id, data }: { id: string; data: UpdateAssignorDto }) {
-    return await this.prisma.assignor.update({ where: { id }, data })
+    return await this.prisma.assignor.update({
+      where: { id },
+      data: { ...data },
+    })
   }
 
   async delete({ id }: { id: string }) {

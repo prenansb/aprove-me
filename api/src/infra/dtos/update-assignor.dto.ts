@@ -2,6 +2,10 @@ import { IsEmail, IsOptional, IsPhoneNumber, MaxLength } from 'class-validator'
 
 export class UpdateAssignorDto {
   @IsOptional()
+  @MaxLength(140)
+  name: string
+
+  @IsOptional()
   @MaxLength(30)
   document: string
 
@@ -14,8 +18,4 @@ export class UpdateAssignorDto {
   @MaxLength(20)
   @IsPhoneNumber('BR')
   phone: string
-
-  @IsOptional()
-  @MaxLength(140)
-  name: string
 }
