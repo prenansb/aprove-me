@@ -4,5 +4,22 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "mysql://root:admin@localhost:3306/backoffice_jobs"
+  url      = "file:./dev.db"
+}
+
+model assignor {
+  id       String    @id @default(uuid())
+  document String
+  email    String
+  phone    String
+  name     String
+  payables payable[]
+}
+
+model payable {
+  id           String   @id @default(uuid())
+  value        Float
+  emissionDate DateTime
+  assignorId   String
+  assignor     assignor @relation(fields: [assignorId], references: [id])
 }

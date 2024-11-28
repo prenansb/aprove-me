@@ -18,7 +18,7 @@
 
 # production
 /build
-/dist
+*/dist
 
 # logs
 logs

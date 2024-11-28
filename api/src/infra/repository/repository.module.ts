@@ -1,22 +1,12 @@
 import { Module } from '@nestjs/common'
 import { PrismaService } from './prisma/prisma.service'
 import { EnvConfigModule } from '../config/env-config.module'
-import { StampRequestsRepository } from './prisma/stamp-requests.repository'
-import { StampRequestDocumentsRepository } from './prisma/stamp-request-documents.repository'
-import { UsersRepository } from './prisma/users.repository'
+import { PayableRepository } from '@/infra/repository/prisma/payable.repository'
+import { AssignorRepository } from '@/infra/repository/prisma/assignor.repository'
 
 @Module({
   imports: [EnvConfigModule],
-  providers: [
-    PrismaService,
-    StampRequestsRepository,
-    StampRequestDocumentsRepository,
-    UsersRepository,
-  ],
-  exports: [
-    StampRequestsRepository,
-    StampRequestDocumentsRepository,
-    UsersRepository,
-  ],
+  providers: [PrismaService, PayableRepository, AssignorRepository],
+  exports: [PayableRepository, AssignorRepository],
 })
 export class RepositoryModule {}

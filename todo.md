@@ -3,21 +3,21 @@
 ## Back-end
 
 ### Nível 1 - Validação
-- [ ] Criar um projeto NestJS.
-- [ ] Criar rota `POST /integrations/payable` para cadastrar recebíveis.
-- [ ] Implementar validações:
-  - [ ] Verificar se nenhum campo está nulo.
-  - [ ] Validar se os IDs são do tipo UUID.
-  - [ ] Garantir que as strings não excedam o limite de caracteres definido.
+- [X] Criar um projeto NestJS.
+- [X] Criar rota `POST /integrations/payable` para cadastrar recebíveis.
+- [X] Implementar validações:
+  - [X] Verificar se nenhum campo está nulo.
+  - [X] Validar se os IDs são do tipo UUID.
+  - [X] Garantir que as strings não excedam o limite de caracteres definido.
 - [ ] Retornar erros com mensagens específicas caso as validações falhem.
-- [ ] Retornar os dados validados em formato JSON.
+- [X] Retornar os dados validados em formato JSON.
 
 ### Nível 2 - Persistência
-- [ ] Configurar Prisma e banco de dados SQLite.
-- [ ] Criar models para recebíveis e cedentes no Prisma.
-- [ ] Implementar lógica para salvar dados validados no banco.
-- [ ] Criar rota `GET /integrations/payable/:id` para buscar um recebível pelo ID.
-- [ ] Criar rota `GET /integrations/assignor/:id` para buscar um cedente pelo ID.
+- [X] Configurar Prisma e banco de dados SQLite.
+- [X] Criar models para recebíveis e cedentes no Prisma.
+- [X] Implementar lógica para salvar dados validados no banco.
+- [X] Criar rota `GET /integrations/payable/:id` para buscar um recebível pelo ID.
+- [X] Criar rota `GET /integrations/assignor/:id` para buscar um cedente pelo ID.
 - [ ] Criar rotas para operações de:
   - [ ] Edição de recebíveis e cedentes.
   - [ ] Exclusão de recebíveis e cedentes.
