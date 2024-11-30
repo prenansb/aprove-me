@@ -6,4 +6,7 @@ export const env = {
     maxAttempts: process.env.MAX_ATTEMPTS,
     baseDelayMs: process.env.DELAY_MS,
   },
+  database: {
+    url: process.env.DATABASE_URL,
+  },
 }

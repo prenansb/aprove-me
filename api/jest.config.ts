@@ -36,5 +36,6 @@ export default {
     '^src/(.*)$': '<rootDir>/src/$1',
   },
   clearMocks: true,
-  setupFiles: ['./test/setEnvVars.js'],
-};
+  globalSetup: './test/global-setup.ts',
+  globalTeardown: './test/global-teardown.ts',
+}

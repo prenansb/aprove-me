@@ -1,4 +1,4 @@
-import type { PayableDto } from '@/infra/dtos/create-payable.dto'
+import type { CreatePayableDto } from '@/infra/dtos/create-payable.dto'
 import { PayableRepository } from '@/infra/repository/prisma/payable.repository'
 import { Inject, Injectable } from '@nestjs/common'
 
@@ -9,7 +9,7 @@ export class CreatePayableUseCase {
     private readonly payableRepository: PayableRepository
   ) {}
 
-  async exec(payable: PayableDto) {
+  async exec(payable: CreatePayableDto) {
     await this.payableRepository.create(payable)
   }
 }

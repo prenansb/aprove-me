@@ -7,7 +7,6 @@ export class PayableRepository {
   constructor(@Inject(PrismaService) private prisma: PrismaService) {}
 
   async create(payableData: {
-    id: string
     value: number
     emissionDate: Date
     assignorId: string

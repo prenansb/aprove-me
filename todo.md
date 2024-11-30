@@ -9,7 +9,7 @@
   - [X] Verificar se nenhum campo está nulo.
   - [X] Validar se os IDs são do tipo UUID.
   - [X] Garantir que as strings não excedam o limite de caracteres definido.
-- [ ] Retornar erros com mensagens específicas caso as validações falhem.
+- [X] Retornar erros com mensagens específicas caso as validações falhem.
 - [X] Retornar os dados validados em formato JSON.
 
 ### Nível 2 - Persistência
@@ -18,14 +18,14 @@
 - [X] Implementar lógica para salvar dados validados no banco.
 - [X] Criar rota `GET /integrations/payable/:id` para buscar um recebível pelo ID.
 - [X] Criar rota `GET /integrations/assignor/:id` para buscar um cedente pelo ID.
-- [ ] Criar rotas para operações de:
-  - [ ] Edição de recebíveis e cedentes.
-  - [ ] Exclusão de recebíveis e cedentes.
-  - [ ] Cadastro de recebíveis e cedentes.
+- [X] Criar rotas para operações de:
+  - [X] Edição de recebíveis e cedentes.
+  - [X] Exclusão de recebíveis e cedentes.
+  - [X] Cadastro de recebíveis e cedentes.
 
 ### Nível 3 - Testes
-- [ ] Escrever testes unitários para cada funcionalidade do backend.
-- [ ] Garantir que todos os testes passem.
+- [X] Escrever testes unitários para cada funcionalidade do backend.
+- [X] Garantir que todos os testes passem.
 
 ### Nível 4 - Autenticação
 - [ ] Criar rota `POST /integrations/auth` para autenticação.

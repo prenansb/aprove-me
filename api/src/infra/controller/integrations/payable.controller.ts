@@ -1,4 +1,5 @@
-import { CreatePayableDto, PayableDto } from '@/infra/dtos/create-payable.dto'
+import { CreatePayableAndAssignorDto } from '@/infra/dtos/create-payable-and-assignor.dto'
+import { CreatePayableDto } from '@/infra/dtos/create-payable.dto'
 import { IdParamDto } from '@/infra/dtos/general.dto'
 import { UpdatePayableDto } from '@/infra/dtos/update-payable.dto'
 import { CreatePayableAndAssignorUseCase } from '@/use-cases/integrations/create-payable-and-assignor.use-case'
@@ -33,7 +34,7 @@ export class PayableController {
   ) {}
 
   @Post('/')
-  async createPayableAndAssignor(@Body() data: CreatePayableDto) {
+  async createPayableAndAssignor(@Body() data: CreatePayableAndAssignorDto) {
     const { assignor, payable } = data
 
     await this.createPayableAndAssignorUseCase.exec({
@@ -45,12 +46,10 @@ export class PayableController {
   }
 
   @Post('/create')
-  async create(@Body() data: PayableDto) {
+  async create(@Body() data: CreatePayableDto) {
     const payable = data
 
-    await this.createPayableUseCase.exec(payable)
-
-    return payable
+    return await this.createPayableUseCase.exec(payable)
   }
 
   @Get('/:id')

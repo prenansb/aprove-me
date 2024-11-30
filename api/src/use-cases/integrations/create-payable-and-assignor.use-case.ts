@@ -1,4 +1,4 @@
-import type { CreatePayableDto } from '@/infra/dtos/create-payable.dto'
+import type { CreatePayableAndAssignorDto } from '@/infra/dtos/create-payable-and-assignor.dto'
 import { AssignorRepository } from '@/infra/repository/prisma/assignor.repository'
 import { PayableRepository } from '@/infra/repository/prisma/payable.repository'
 import { Inject, Injectable } from '@nestjs/common'
@@ -12,15 +12,9 @@ export class CreatePayableAndAssignorUseCase {
     private readonly assignorRepository: AssignorRepository
   ) {}
 
-  async exec({ payable, assignor }: CreatePayableDto) {
-    const assignorExists = await this.assignorRepository.getById({
-      id: assignor.id,
-    })
+  async exec({ payable, assignor: assignorData }: CreatePayableAndAssignorDto) {
+    const assignor = await this.assignorRepository.create(assignorData)
 
-    if (!assignorExists) {
-      await this.assignorRepository.create(assignor)
-    }
-
-    await this.payableRepository.create(payable)
+    await this.payableRepository.create({ ...payable, assignorId: assignor.id })
   }
 }
