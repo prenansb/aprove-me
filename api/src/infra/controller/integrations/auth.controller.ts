@@ -22,6 +22,6 @@ export class AuthController {
   @Public()
   @Post('/signup')
   async signup(@Body() data: AuthDto) {
-    return await this.createUserUseCase.exec(data)
+    await this.createUserUseCase.exec(data)
   }
 }

@@ -15,16 +15,14 @@ export class CreateUserUseCase {
     const user = await this.userRepository.getUser(data)
 
     if (user) {
-      return 'User already exists!'
+      throw new Error('User already exists!')
     }
 
     const hashedPassword = await this.hashGenerator.hash(data.password)
 
-    await this.userRepository.create({
+    return await this.userRepository.create({
       login: data.login,
       password: hashedPassword,
     })
-
-    return 'User created!'
   }
 }
