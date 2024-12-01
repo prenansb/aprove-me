@@ -17,7 +17,15 @@ import {
   Post,
   Put,
 } from '@nestjs/common'
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
 
+@ApiTags('Payables')
 @Controller('/integrations/payable')
 export class PayableController {
   constructor(
@@ -34,6 +42,12 @@ export class PayableController {
   ) {}
 
   @Post('/')
+  @ApiOperation({ summary: 'Create Payable and Assignor' })
+  @ApiResponse({
+    status: 201,
+    description: 'Payable and Assignor created successfully.',
+  })
+  @ApiBody({ type: CreatePayableAndAssignorDto })
   async createPayableAndAssignor(@Body() data: CreatePayableAndAssignorDto) {
     const { assignor, payable } = data
 
@@ -46,6 +60,9 @@ export class PayableController {
   }
 
   @Post('/create')
+  @ApiOperation({ summary: 'Create Payable' })
+  @ApiResponse({ status: 201, description: 'Payable created successfully.' })
+  @ApiBody({ type: CreatePayableDto })
   async create(@Body() data: CreatePayableDto) {
     const payable = data
 
@@ -53,7 +70,10 @@ export class PayableController {
   }
 
   @Get('/:id')
-  async getById(@Param('id') id: string) {
+  @ApiOperation({ summary: 'Get Payable By Id' })
+  @ApiResponse({ status: 200, description: 'Payable retrieved successfully.' })
+  @ApiParam({ name: 'id', type: IdParamDto, description: 'Payable Id' })
+  async getById(@Param() { id }: IdParamDto) {
     try {
       const payable = await this.getPayableByIdUseCase.exec({
         id,
@@ -68,11 +88,17 @@ export class PayableController {
   }
 
   @Put('/:id')
+  @ApiOperation({ summary: 'Update Payable By Id' })
+  @ApiResponse({ status: 200, description: 'Payable updated successfully.' })
+  @ApiParam({ name: 'id', type: IdParamDto, description: 'Payable Id' })
   async update(@Param() { id }: IdParamDto, @Body() data: UpdatePayableDto) {
     return await this.updatePayableUseCase.exec({ id, data })
   }
 
   @Delete('/:id')
+  @ApiOperation({ summary: 'Delete Payable By Id' })
+  @ApiResponse({ status: 200, description: 'Payable deleted successfully.' })
+  @ApiParam({ name: 'id', type: IdParamDto, description: 'Payable Id' })
   async delete(@Param() { id }: IdParamDto) {
     return await this.deletePayableUseCase.exec({ id })
   }
