@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model user {
+  id       String @id @default(uuid())
+  login    String
+  password String
+}
+
 model assignor {
   id       String    @id @default(uuid())
   document String
