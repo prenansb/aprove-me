@@ -48,7 +48,7 @@ export class AssignorController {
   @Get('/:id')
   @ApiOperation({ summary: 'Get Assignor By Id' })
   @ApiResponse({ status: 200, description: 'Assignor retrieved successfully.' })
-  @ApiParam({ name: 'id', type: IdParamDto, description: 'Assignor Id' })
+  @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async getById(@Param() { id }: IdParamDto) {
     try {
       const assignor = await this.getAssignorByIdUseCase.exec({ id })
@@ -64,7 +64,7 @@ export class AssignorController {
   @Put('/:id')
   @ApiOperation({ summary: 'Update Assignor By Id' })
   @ApiResponse({ status: 200, description: 'Assignor updated successfully.' })
-  @ApiParam({ name: 'id', type: IdParamDto, description: 'Assignor Id' })
+  @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async update(@Param() { id }: IdParamDto, @Body() data: UpdateAssignorDto) {
     return await this.updateAssignorUseCase.exec({ id, data })
   }
@@ -72,7 +72,7 @@ export class AssignorController {
   @Delete('/:id')
   @ApiOperation({ summary: 'Delete Assignor By Id' })
   @ApiResponse({ status: 200, description: 'Assignor deleted successfully.' })
-  @ApiParam({ name: 'id', type: IdParamDto, description: 'Assignor Id' })
+  @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async delete(@Param() { id }: IdParamDto) {
     return await this.deleteAssignorUseCase.exec({ id })
   }

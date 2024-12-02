@@ -1,0 +1,333 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/integrations/assignor/create": {
+      "post": {
+        "operationId": "AssignorController_create",
+        "summary": "Create Assignor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssignorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Assignor created successfully."
+          }
+        },
+        "tags": [
+          "Assignors"
+        ]
+      }
+    },
+    "/integrations/assignor/{id}": {
+      "get": {
+        "operationId": "AssignorController_getById",
+        "summary": "Get Assignor By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Assignor Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assignor retrieved successfully."
+          }
+        },
+        "tags": [
+          "Assignors"
+        ]
+      },
+      "put": {
+        "operationId": "AssignorController_update",
+        "summary": "Update Assignor By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Assignor Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAssignorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Assignor updated successfully."
+          }
+        },
+        "tags": [
+          "Assignors"
+        ]
+      },
+      "delete": {
+        "operationId": "AssignorController_delete",
+        "summary": "Delete Assignor By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Assignor Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Assignor deleted successfully."
+          }
+        },
+        "tags": [
+          "Assignors"
+        ]
+      }
+    },
+    "/integrations/payable": {
+      "post": {
+        "operationId": "PayableController_createPayableAndAssignor",
+        "summary": "Create Payable and Assignor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePayableAndAssignorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payable and Assignor created successfully."
+          }
+        },
+        "tags": [
+          "Payables"
+        ]
+      }
+    },
+    "/integrations/payable/create": {
+      "post": {
+        "operationId": "PayableController_create",
+        "summary": "Create Payable",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePayableDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payable created successfully."
+          }
+        },
+        "tags": [
+          "Payables"
+        ]
+      }
+    },
+    "/integrations/payable/{id}": {
+      "get": {
+        "operationId": "PayableController_getById",
+        "summary": "Get Payable By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Payable Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payable retrieved successfully."
+          }
+        },
+        "tags": [
+          "Payables"
+        ]
+      },
+      "put": {
+        "operationId": "PayableController_update",
+        "summary": "Update Payable By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Payable Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePayableDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payable updated successfully."
+          }
+        },
+        "tags": [
+          "Payables"
+        ]
+      },
+      "delete": {
+        "operationId": "PayableController_delete",
+        "summary": "Delete Payable By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Payable Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payable deleted successfully."
+          }
+        },
+        "tags": [
+          "Payables"
+        ]
+      }
+    },
+    "/integrations/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "Authenticate User",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User Authenticated."
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/integrations/auth/signup": {
+      "post": {
+        "operationId": "AuthController_signup",
+        "summary": "Create User",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully."
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Nodejs example",
+    "description": "The nodejs API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Node",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateAssignorDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateAssignorDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreatePayableAndAssignorDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreatePayableDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdatePayableDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "AuthDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

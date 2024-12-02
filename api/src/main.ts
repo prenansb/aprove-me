@@ -6,6 +6,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { env } from './infra/config/env'
 import { ValidationPipe } from '@nestjs/common'
 
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
@@ -26,6 +29,10 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('docs', app, document)
+
+  const outputPath = path.join(process.cwd(), 'swagger.json')
+  fs.writeFileSync(outputPath, JSON.stringify(document, null, 2))
+  console.log(`Swagger JSON file has been generated at ${outputPath}`)
 
   await app.listen(env.port, '0.0.0.0')
 }

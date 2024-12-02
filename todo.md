@@ -28,15 +28,15 @@
 - [X] Garantir que todos os testes passem.
 
 ### Nível 4 - Autenticação
-- [ ] Criar rota `POST /integrations/auth` para autenticação.
-  - [ ] Validar credenciais `login` e `password`.
+- [X] Criar rota `POST /integrations/auth` para autenticação.
+  - [X] Validar credenciais `login` e `password`.
   - [ ] Retornar JWT com expiração de 1 minuto.
-- [ ] Adicionar middleware para validar JWT em todas as rotas existentes.
-- [ ] Retornar mensagem "Não autorizado" caso o JWT seja inválido ou expirado.
+- [X] Adicionar middleware para validar JWT em todas as rotas existentes.
+- [X] Retornar mensagem "Não autorizado" caso o JWT seja inválido ou expirado.
 
 ### Nível 5 - Gerenciamento de permissões
-- [ ] Criar cadastro de permissões com login e senha no banco.
-- [ ] Refatorar autenticação para verificar login e senha no banco antes de gerar JWT.
+- [X] Criar cadastro de permissões com login e senha no banco.
+- [X] Refatorar autenticação para verificar login e senha no banco antes de gerar JWT.
 
 ### Nível 6 - Infra e Doc
 - [ ] Criar um `Dockerfile` para a API.

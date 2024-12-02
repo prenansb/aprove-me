@@ -1,0 +1,16 @@
+{
+  "eslint.validate": ["json", "jsonc"],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "javascript.preferences.importModuleSpecifier": "shortest",
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "tailwindCSS.experimental.classRegex": [
+    ["\\b(?:\\w*ClassNames|classNames)=\\{\\{\\s*[\\s\\S]*?:\\s*['\"]([^'\"]*)"],
+    ["w*ClassName\\s*=\\s*\"([^\"]*)\""],
+    ["tw`([^`]*)`"],
+    ["tv\\(([^)]*)\\)", "{?\\s?[\\w].*:\\s*?[\"'`]([^\"'`]*).*?,?\\s?}?"]
+  ],
+  "files.eol": "\n",
+}
