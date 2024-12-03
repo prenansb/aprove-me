@@ -27,6 +27,19 @@ export class AuthController {
       required: ['token'],
     },
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+    schema: {
+      type: 'object',
+      properties: {
+        statusCode: { type: 'number', example: 401 },
+        message: { type: 'string', example: 'Invalid credentials' },
+        error: { type: 'string', example: 'Unauthorized' },
+      },
+      required: ['statusCode', 'message', 'error'],
+    },
+  })
   @ApiBody({ type: AuthDto })
   async login(@Body() data: AuthDto) {
     const token = await this.getUserUseCase.exec(data)

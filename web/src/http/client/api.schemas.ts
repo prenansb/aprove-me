@@ -5,6 +5,12 @@
  * The nodejs API description
  * OpenAPI spec version: 1.0
  */
+export type Authenticate401 = {
+  error: string
+  message: string
+  statusCode: number
+}
+
 export type Authenticate200 = {
   token: string
 }

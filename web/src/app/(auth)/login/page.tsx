@@ -50,9 +50,7 @@ export default function Page() {
           <Image src="/logo-bankme.png" fill alt="Bankme" />
         </div>
 
-        <div className="w-full px-[88px]">
-          <LoginForm />
-        </div>
+        <LoginForm />
 
         <span className="absolute bottom-10 block text-[13px]/[20px] tracking-[-0.2px] text-[#A6A6A6]">
           © 2024 Bankme <span className="text-[#BFBFBF]">•</span> Todos os direitos

@@ -6,7 +6,6 @@ import { ArrowUpRight, DollarSign, Users } from 'lucide-react'
 export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-4xl font-bold">Início</h1>
       <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

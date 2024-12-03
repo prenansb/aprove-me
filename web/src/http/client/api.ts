@@ -29,6 +29,7 @@ import type {
   AssignorControllerUpdate200,
   AuthDto,
   Authenticate200,
+  Authenticate401,
   CreateAssignorDto,
   CreatePayableAndAssignorDto,
   CreatePayableDto,
@@ -1031,7 +1032,7 @@ export const authenticate = async (
 }
 
 export const getAuthenticateMutationOptions = <
-  TError = unknown,
+  TError = Authenticate401,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1065,12 +1066,12 @@ export type AuthenticateMutationResult = NonNullable<
   Awaited<ReturnType<typeof authenticate>>
 >
 export type AuthenticateMutationBody = AuthDto
-export type AuthenticateMutationError = unknown
+export type AuthenticateMutationError = Authenticate401
 
 /**
  * @summary Authenticate User
  */
-export const useAuthenticate = <TError = unknown, TContext = unknown>(options?: {
+export const useAuthenticate = <TError = Authenticate401, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof authenticate>>,
     TError,
