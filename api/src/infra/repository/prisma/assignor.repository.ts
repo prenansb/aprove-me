@@ -5,7 +5,7 @@ import type { CreateAssignorDto } from '@/infra/dtos/create-assignor.dto'
 
 @Injectable()
 export class AssignorRepository {
-  constructor(@Inject(PrismaService) private prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
 
   async create(assignorData: CreateAssignorDto) {
     const assignor = await this.prisma.assignor.create({
@@ -23,6 +23,10 @@ export class AssignorRepository {
     })
 
     return assignor
+  }
+
+  async listAll() {
+    return await this.prisma.assignor.findMany()
   }
 
   async update({ id, data }: { id: string; data: UpdateAssignorDto }) {

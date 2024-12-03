@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers'
+
 function getBody<T>(c: Response | Request): Promise<T> {
   const contentType = c.headers.get('content-type')
 
@@ -8,11 +10,10 @@ function getBody<T>(c: Response | Request): Promise<T> {
   return c.text() as Promise<T>
 }
 
-async function getHeaders(headers?: HeadersInit): Promise<HeadersInit> {
-  const token = document.cookie
-    .split('; ')
-    .find(row => row.startsWith('session='))
-    ?.split('=')[1]
+async function getHeaders(options?: RequestInit): Promise<HeadersInit> {
+  const headers = options?.headers
+
+  const token = (await cookies()).get('session')?.value
 
   if (token) {
     return { ...headers, Authorization: `Bearer ${token}` }
@@ -22,7 +23,7 @@ async function getHeaders(headers?: HeadersInit): Promise<HeadersInit> {
 }
 
 export async function http<T>(path: string, options: RequestInit): Promise<T> {
-  const requestHeaders = await getHeaders(options.headers)
+  const requestHeaders = await getHeaders(options)
 
   const url = new URL(path, process.env.NEXT_PUBLIC_API_URL)
 

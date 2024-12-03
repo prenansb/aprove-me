@@ -17,11 +17,21 @@ export class AuthController {
 
   @Public()
   @Post('/login')
-  @ApiOperation({ summary: 'Authenticate User' })
-  @ApiResponse({ status: 200, description: 'User Authenticated.' })
+  @ApiOperation({ summary: 'Authenticate User', operationId: 'authenticate' })
+  @ApiResponse({
+    status: 200,
+    description: 'User Authenticated.',
+    schema: {
+      type: 'object',
+      properties: { token: { type: 'string' } },
+      required: ['token'],
+    },
+  })
   @ApiBody({ type: AuthDto })
   async login(@Body() data: AuthDto) {
-    return await this.getUserUseCase.exec(data)
+    const token = await this.getUserUseCase.exec(data)
+
+    return { token }
   }
 
   @Public()

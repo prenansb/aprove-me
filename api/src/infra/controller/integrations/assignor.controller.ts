@@ -4,6 +4,7 @@ import { UpdateAssignorDto } from '@/infra/dtos/update-assignor.dto'
 import { CreateAssignorUseCase } from '@/use-cases/integrations/create-assignor.use-case'
 import { DeleteAssignorUseCase } from '@/use-cases/integrations/delete-assignor.use-case'
 import { GetAssignorByIdUseCase } from '@/use-cases/integrations/get-assignor-by-id.use-case'
+import { ListAllAssignorsUseCase } from '@/use-cases/integrations/list-all-assignors.use-case'
 import { UpdateAssignorUseCase } from '@/use-cases/integrations/update-assignor.use-case'
 import {
   Body,
@@ -34,25 +35,82 @@ export class AssignorController {
     @Inject(DeleteAssignorUseCase)
     private readonly deleteAssignorUseCase: DeleteAssignorUseCase,
     @Inject(UpdateAssignorUseCase)
-    private readonly updateAssignorUseCase: UpdateAssignorUseCase
+    private readonly updateAssignorUseCase: UpdateAssignorUseCase,
+    @Inject(ListAllAssignorsUseCase)
+    private readonly listAllAssignorsUseCase: ListAllAssignorsUseCase
   ) {}
 
   @Post('/create')
   @ApiOperation({ summary: 'Create Assignor' })
-  @ApiResponse({ status: 201, description: 'Assignor created successfully.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Assignor created successfully.',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        document: { type: 'string' },
+        email: { type: 'string' },
+        phone: { type: 'string' },
+        name: { type: 'string' }
+      }
+    }
+  })
   @ApiBody({ type: CreateAssignorDto })
   async create(@Body() data: CreateAssignorDto) {
     return await this.createAssignorUseCase.exec({ ...data })
   }
 
+  @Get('/list')
+  @ApiOperation({ summary: 'Get All Assignors' })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignors retrieved successfully.',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          document: { type: 'string' },
+          email: { type: 'string' },
+          phone: { type: 'string' },
+          name: { type: 'string' }
+        }
+      }
+    }
+  })
+  async listAll() {
+    try {
+      const assignor = await this.listAllAssignorsUseCase.exec()
+      return assignor
+    } catch (e) {
+      return {
+        message: e.message,
+      }
+    }
+  }
+
   @Get('/:id')
   @ApiOperation({ summary: 'Get Assignor By Id' })
-  @ApiResponse({ status: 200, description: 'Assignor retrieved successfully.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignor retrieved successfully.',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        document: { type: 'string' },
+        email: { type: 'string' },
+        phone: { type: 'string' },
+        name: { type: 'string' }
+      }
+    }
+  })
   @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async getById(@Param() { id }: IdParamDto) {
     try {
       const assignor = await this.getAssignorByIdUseCase.exec({ id })
-
       return assignor
     } catch (e) {
       return {
@@ -63,7 +121,20 @@ export class AssignorController {
 
   @Put('/:id')
   @ApiOperation({ summary: 'Update Assignor By Id' })
-  @ApiResponse({ status: 200, description: 'Assignor updated successfully.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignor updated successfully.',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        document: { type: 'string' },
+        email: { type: 'string' },
+        phone: { type: 'string' },
+        name: { type: 'string' }
+      }
+    }
+  })
   @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async update(@Param() { id }: IdParamDto, @Body() data: UpdateAssignorDto) {
     return await this.updateAssignorUseCase.exec({ id, data })
@@ -71,7 +142,20 @@ export class AssignorController {
 
   @Delete('/:id')
   @ApiOperation({ summary: 'Delete Assignor By Id' })
-  @ApiResponse({ status: 200, description: 'Assignor deleted successfully.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignor deleted successfully.',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        document: { type: 'string' },
+        email: { type: 'string' },
+        phone: { type: 'string' },
+        name: { type: 'string' }
+      }
+    }
+  })
   @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async delete(@Param() { id }: IdParamDto) {
     return await this.deleteAssignorUseCase.exec({ id })

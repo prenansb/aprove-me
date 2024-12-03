@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { NewAssignorDialog } from '@/components/new-assignor-dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -27,12 +28,12 @@ export default async function Assignors() {
     <div className="container mx-auto space-y-8 px-4 py-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold lg:text-4xl">Cedentes</h1>
-        <Link href="/assignors/new">
+        <NewAssignorDialog>
           <Button>
             <Plus className="mr-2 h-4 w-4" />
             Novo Cedente
           </Button>
-        </Link>
+        </NewAssignorDialog>
       </div>
       <Card>
         <CardHeader>

@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { logout } from '@/app/(auth)/login/actions'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { FileText, Home, PlusCircle, Users } from 'lucide-react'
+import { FileText, Home, Users } from 'lucide-react'
 
 const sidebarItems = [
-  { name: 'Inicio', href: '/dashboard', icon: Home },
+  { name: 'Início', href: '/dashboard', icon: Home },
   { name: 'Pagáveis', href: '/dashboard/payables', icon: FileText },
   { name: 'Cedentes', href: '/dashboard/assignors', icon: Users },
 ]
@@ -40,12 +41,9 @@ export default function Sidebar() {
         </nav>
       </div>
       <div className="flex flex-shrink-0 bg-primary-foreground/10 p-4">
-        <Link href="/payables/new" className="w-full">
-          <Button variant="secondary" className="w-full">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Novo Pagável
-          </Button>
-        </Link>
+        <Button onClick={logout} variant="secondary" className="w-full">
+          Log out
+        </Button>
       </div>
     </div>
   )

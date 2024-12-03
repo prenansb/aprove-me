@@ -8,9 +8,13 @@
 import {
   useMutation,
   useQuery,
+  type DataTag,
+  type DefinedInitialDataOptions,
+  type DefinedUseQueryResult,
   type MutationFunction,
   type QueryFunction,
   type QueryKey,
+  type UndefinedInitialDataOptions,
   type UseMutationOptions,
   type UseMutationResult,
   type UseQueryOptions,
@@ -18,7 +22,13 @@ import {
 } from '@tanstack/react-query'
 import { http } from '../client'
 import type {
+  AssignorControllerCreate201,
+  AssignorControllerDelete200,
+  AssignorControllerGetById200,
+  AssignorControllerListAll200Item,
+  AssignorControllerUpdate200,
   AuthDto,
+  Authenticate200,
   CreateAssignorDto,
   CreatePayableAndAssignorDto,
   CreatePayableDto,
@@ -38,8 +48,8 @@ export const getAssignorControllerCreateUrl = () => {
 export const assignorControllerCreate = async (
   createAssignorDto: CreateAssignorDto,
   options?: RequestInit,
-): Promise<void> => {
-  return http<Promise<void>>(getAssignorControllerCreateUrl(), {
+): Promise<AssignorControllerCreate201> => {
+  return http<Promise<AssignorControllerCreate201>>(getAssignorControllerCreateUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -110,6 +120,125 @@ export const useAssignorControllerCreate = <
 }
 
 /**
+ * @summary Get All Assignors
+ */
+export const getAssignorControllerListAllUrl = () => {
+  return `/integrations/assignor/list`
+}
+
+export const assignorControllerListAll = async (
+  options?: RequestInit,
+): Promise<AssignorControllerListAll200Item[]> => {
+  return http<Promise<AssignorControllerListAll200Item[]>>(
+    getAssignorControllerListAllUrl(),
+    {
+      ...options,
+      method: 'GET',
+    },
+  )
+}
+
+export const getAssignorControllerListAllQueryKey = () => {
+  return [`/integrations/assignor/list`] as const
+}
+
+export const getAssignorControllerListAllQueryOptions = <
+  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+  >
+  request?: SecondParameter<typeof http>
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getAssignorControllerListAllQueryKey()
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof assignorControllerListAll>>> = ({
+    signal,
+  }) => assignorControllerListAll({ signal, ...requestOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof assignorControllerListAll>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type AssignorControllerListAllQueryResult = NonNullable<
+  Awaited<ReturnType<typeof assignorControllerListAll>>
+>
+export type AssignorControllerListAllQueryError = unknown
+
+export function useAssignorControllerListAll<
+  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof assignorControllerListAll>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >
+  request?: SecondParameter<typeof http>
+}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAssignorControllerListAll<
+  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof assignorControllerListAll>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >
+  request?: SecondParameter<typeof http>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAssignorControllerListAll<
+  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+  >
+  request?: SecondParameter<typeof http>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get All Assignors
+ */
+
+export function useAssignorControllerListAll<
+  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+  >
+  request?: SecondParameter<typeof http>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getAssignorControllerListAllQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
  * @summary Get Assignor By Id
  */
 export const getAssignorControllerGetByIdUrl = (id: string) => {
@@ -119,11 +248,14 @@ export const getAssignorControllerGetByIdUrl = (id: string) => {
 export const assignorControllerGetById = async (
   id: string,
   options?: RequestInit,
-): Promise<void> => {
-  return http<Promise<void>>(getAssignorControllerGetByIdUrl(id), {
-    ...options,
-    method: 'GET',
-  })
+): Promise<AssignorControllerGetById200> => {
+  return http<Promise<AssignorControllerGetById200>>(
+    getAssignorControllerGetByIdUrl(id),
+    {
+      ...options,
+      method: 'GET',
+    },
+  )
 }
 
 export const getAssignorControllerGetByIdQueryKey = (id: string) => {
@@ -136,10 +268,12 @@ export const getAssignorControllerGetByIdQueryOptions = <
 >(
   id: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof assignorControllerGetById>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof assignorControllerGetById>>,
+        TError,
+        TData
+      >
     >
     request?: SecondParameter<typeof http>
   },
@@ -156,7 +290,7 @@ export const getAssignorControllerGetByIdQueryOptions = <
     Awaited<ReturnType<typeof assignorControllerGetById>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type AssignorControllerGetByIdQueryResult = NonNullable<
@@ -164,6 +298,70 @@ export type AssignorControllerGetByIdQueryResult = NonNullable<
 >
 export type AssignorControllerGetByIdQueryError = unknown
 
+export function useAssignorControllerGetById<
+  TData = Awaited<ReturnType<typeof assignorControllerGetById>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof assignorControllerGetById>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof assignorControllerGetById>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof http>
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAssignorControllerGetById<
+  TData = Awaited<ReturnType<typeof assignorControllerGetById>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof assignorControllerGetById>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof assignorControllerGetById>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof http>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAssignorControllerGetById<
+  TData = Awaited<ReturnType<typeof assignorControllerGetById>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof assignorControllerGetById>>,
+        TError,
+        TData
+      >
+    >
+    request?: SecondParameter<typeof http>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Assignor By Id
  */
@@ -174,18 +372,20 @@ export function useAssignorControllerGetById<
 >(
   id: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof assignorControllerGetById>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof assignorControllerGetById>>,
+        TError,
+        TData
+      >
     >
     request?: SecondParameter<typeof http>
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getAssignorControllerGetByIdQueryOptions(id, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -204,8 +404,8 @@ export const assignorControllerUpdate = async (
   id: string,
   updateAssignorDto: UpdateAssignorDto,
   options?: RequestInit,
-): Promise<void> => {
-  return http<Promise<void>>(getAssignorControllerUpdateUrl(id), {
+): Promise<AssignorControllerUpdate200> => {
+  return http<Promise<AssignorControllerUpdate200>>(getAssignorControllerUpdateUrl(id), {
     ...options,
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -285,8 +485,8 @@ export const getAssignorControllerDeleteUrl = (id: string) => {
 export const assignorControllerDelete = async (
   id: string,
   options?: RequestInit,
-): Promise<void> => {
-  return http<Promise<void>>(getAssignorControllerDeleteUrl(id), {
+): Promise<AssignorControllerDelete200> => {
+  return http<Promise<AssignorControllerDelete200>>(getAssignorControllerDeleteUrl(id), {
     ...options,
     method: 'DELETE',
   })
@@ -545,10 +745,8 @@ export const getPayableControllerGetByIdQueryOptions = <
 >(
   id: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof payableControllerGetById>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof payableControllerGetById>>, TError, TData>
     >
     request?: SecondParameter<typeof http>
   },
@@ -565,7 +763,7 @@ export const getPayableControllerGetByIdQueryOptions = <
     Awaited<ReturnType<typeof payableControllerGetById>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type PayableControllerGetByIdQueryResult = NonNullable<
@@ -573,6 +771,58 @@ export type PayableControllerGetByIdQueryResult = NonNullable<
 >
 export type PayableControllerGetByIdQueryError = unknown
 
+export function usePayableControllerGetById<
+  TData = Awaited<ReturnType<typeof payableControllerGetById>>,
+  TError = unknown,
+>(
+  id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof payableControllerGetById>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof payableControllerGetById>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof http>
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function usePayableControllerGetById<
+  TData = Awaited<ReturnType<typeof payableControllerGetById>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof payableControllerGetById>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof payableControllerGetById>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof http>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function usePayableControllerGetById<
+  TData = Awaited<ReturnType<typeof payableControllerGetById>>,
+  TError = unknown,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof payableControllerGetById>>, TError, TData>
+    >
+    request?: SecondParameter<typeof http>
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Payable By Id
  */
@@ -583,18 +833,16 @@ export function usePayableControllerGetById<
 >(
   id: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof payableControllerGetById>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof payableControllerGetById>>, TError, TData>
     >
     request?: SecondParameter<typeof http>
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getPayableControllerGetByIdQueryOptions(id, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -766,15 +1014,15 @@ export const usePayableControllerDelete = <
 /**
  * @summary Authenticate User
  */
-export const getAuthControllerLoginUrl = () => {
+export const getAuthenticateUrl = () => {
   return `/integrations/auth/login`
 }
 
-export const authControllerLogin = async (
+export const authenticate = async (
   authDto: AuthDto,
   options?: RequestInit,
-): Promise<void> => {
-  return http<Promise<void>>(getAuthControllerLoginUrl(), {
+): Promise<Authenticate200> => {
+  return http<Promise<Authenticate200>>(getAuthenticateUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -782,19 +1030,19 @@ export const authControllerLogin = async (
   })
 }
 
-export const getAuthControllerLoginMutationOptions = <
+export const getAuthenticateMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authControllerLogin>>,
+    Awaited<ReturnType<typeof authenticate>>,
     TError,
     { data: AuthDto },
     TContext
   >
   request?: SecondParameter<typeof http>
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof authControllerLogin>>,
+  Awaited<ReturnType<typeof authenticate>>,
   TError,
   { data: AuthDto },
   TContext
@@ -802,41 +1050,41 @@ export const getAuthControllerLoginMutationOptions = <
   const { mutation: mutationOptions, request: requestOptions } = options ?? {}
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof authControllerLogin>>,
+    Awaited<ReturnType<typeof authenticate>>,
     { data: AuthDto }
   > = props => {
     const { data } = props ?? {}
 
-    return authControllerLogin(data, requestOptions)
+    return authenticate(data, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type AuthControllerLoginMutationResult = NonNullable<
-  Awaited<ReturnType<typeof authControllerLogin>>
+export type AuthenticateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof authenticate>>
 >
-export type AuthControllerLoginMutationBody = AuthDto
-export type AuthControllerLoginMutationError = unknown
+export type AuthenticateMutationBody = AuthDto
+export type AuthenticateMutationError = unknown
 
 /**
  * @summary Authenticate User
  */
-export const useAuthControllerLogin = <TError = unknown, TContext = unknown>(options?: {
+export const useAuthenticate = <TError = unknown, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authControllerLogin>>,
+    Awaited<ReturnType<typeof authenticate>>,
     TError,
     { data: AuthDto },
     TContext
   >
   request?: SecondParameter<typeof http>
 }): UseMutationResult<
-  Awaited<ReturnType<typeof authControllerLogin>>,
+  Awaited<ReturnType<typeof authenticate>>,
   TError,
   { data: AuthDto },
   TContext
 > => {
-  const mutationOptions = getAuthControllerLoginMutationOptions(options)
+  const mutationOptions = getAuthenticateMutationOptions(options)
 
   return useMutation(mutationOptions)
 }

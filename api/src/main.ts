@@ -15,9 +15,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
 
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true, // Allow cookies and other credentials to be sent
+    credentials: true,
   })
 
   const config = new DocumentBuilder()

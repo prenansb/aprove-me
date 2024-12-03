@@ -18,7 +18,73 @@
         },
         "responses": {
           "201": {
-            "description": "Assignor created successfully."
+            "description": "Assignor created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assignors"
+        ]
+      }
+    },
+    "/integrations/assignor/list": {
+      "get": {
+        "operationId": "AssignorController_listAll",
+        "summary": "Get All Assignors",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Assignors retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "document": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -43,7 +109,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Assignor retrieved successfully."
+            "description": "Assignor retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -76,7 +166,31 @@
         },
         "responses": {
           "200": {
-            "description": "Assignor updated successfully."
+            "description": "Assignor updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -99,7 +213,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Assignor deleted successfully."
+            "description": "Assignor deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "document": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -240,7 +378,7 @@
     },
     "/integrations/auth/login": {
       "post": {
-        "operationId": "AuthController_login",
+        "operationId": "authenticate",
         "summary": "Authenticate User",
         "parameters": [],
         "requestBody": {
@@ -255,7 +393,22 @@
         },
         "responses": {
           "200": {
-            "description": "User Authenticated."
+            "description": "User Authenticated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ]
+                }
+              }
+            }
           }
         },
         "tags": [

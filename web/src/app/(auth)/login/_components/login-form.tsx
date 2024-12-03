@@ -1,17 +1,15 @@
 'use client'
 
-import Link from 'next/link'
-import { useContext } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import '@/http/client/api'
-import AuthContext from '@/providers/auth-provider'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Form, FormControl, FormField, FormItem } from './ui/form'
+import { login } from '../actions'
 
 const formSchema = z.object({
   username: z.string(),
@@ -21,9 +19,11 @@ const formSchema = z.object({
 export function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
   })
-
-  const { login } = useContext(AuthContext)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await login({
@@ -77,18 +77,16 @@ export function LoginForm() {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-full">
+              <Button
+                disabled={form.formState.isSubmitting}
+                type="submit"
+                className="w-full"
+              >
                 Login
               </Button>
             </div>
           </form>
         </Form>
-        <div className="mt-4 text-center text-sm">
-          Não tem uma conta?{' '}
-          <Link href="#" className="underline">
-            Cadastrar
-          </Link>
-        </div>
       </CardContent>
     </Card>
   )

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { NewPayableDialog } from '@/components/new-payable-dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -27,9 +28,9 @@ export default async function Payables() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-4xl font-bold">Pagáveis</h1>
-        <Link href="/payables/new">
+        <NewPayableDialog>
           <Button>Novo Pagável</Button>
-        </Link>
+        </NewPayableDialog>
       </div>
       <Card>
         <CardHeader>
