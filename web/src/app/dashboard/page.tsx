@@ -14,8 +14,8 @@ export default function Home() {
             <div className="pb-0.5 text-2xl font-bold">R$ 45.231,89</div>
             <p className="text-sm text-muted-foreground">
               <span className="font-medium text-green-700">
-                +R$ 451,30 (20.1%) mês passado
-              </span>
+                +R$ 451,30 (20.1%)
+              </span> mês passado
             </p>
           </CardContent>
         </Card>
