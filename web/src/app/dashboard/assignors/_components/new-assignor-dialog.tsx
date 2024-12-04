@@ -4,29 +4,35 @@ import { ReactNode, useState } from 'react'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useToast } from '@/hooks/use-toast'
 import { assignorControllerCreate } from '@/http/client/api'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import { AssignorForm, AssignorFormSchema } from './assignor-form'
 
-export function NewAssignorDialog({ children }: { children: ReactNode }) {
+export function NewAssignorDialog({
+  children,
+  currentPage,
+}: {
+  children: ReactNode
+  currentPage: number
+}) {
   const [open, setOpen] = useState(false)
-  const { toast } = useToast()
+  const queryClient = useQueryClient()
 
   const handleSubmit = async (data: AssignorFormSchema) => {
-    const response = await assignorControllerCreate(data)
-
-    console.log(response)
+    await assignorControllerCreate(data)
+    await queryClient.invalidateQueries({ queryKey: ['assignors', currentPage] })
 
     setOpen(false)
-    toast({
-      title: 'Success',
-      description: 'New assignor created successfully.',
-    })
+    toast.success('Cedente criado com sucesso.')
+  }
+
+  const handleCloseDialog = () => {
+    setOpen(false)
   }
 
   return (
@@ -36,7 +42,7 @@ export function NewAssignorDialog({ children }: { children: ReactNode }) {
         <DialogHeader>
           <DialogTitle>Criar novo Cedente</DialogTitle>
         </DialogHeader>
-        <AssignorForm onSubmit={handleSubmit} />
+        <AssignorForm onSubmit={handleSubmit} onCancel={handleCloseDialog} />
       </DialogContent>
     </Dialog>
   )

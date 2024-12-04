@@ -15,6 +15,28 @@ export type Authenticate200 = {
   token: string
 }
 
+export type ListPayables200Meta = {
+  lastPage?: number
+  page?: number
+  total?: number
+}
+
+export type ListPayables200DataItemAssignor = {
+  name?: string
+}
+
+export type ListPayables200DataItem = {
+  assignor?: ListPayables200DataItemAssignor
+  emissionDate?: string
+  id?: string
+  value?: number
+}
+
+export type ListPayables200 = {
+  data?: ListPayables200DataItem[]
+  meta?: ListPayables200Meta
+}
+
 export type AssignorControllerDelete200 = {
   document?: string
   email?: string
@@ -39,12 +61,23 @@ export type AssignorControllerGetById200 = {
   phone?: string
 }
 
-export type AssignorControllerListAll200Item = {
+export type ListAssignors200Meta = {
+  lastPage?: number
+  page?: number
+  total?: number
+}
+
+export type ListAssignors200DataItem = {
   document?: string
   email?: string
   id?: string
   name?: string
   phone?: string
+}
+
+export type ListAssignors200 = {
+  data?: ListAssignors200DataItem[]
+  meta?: ListAssignors200Meta
 }
 
 export type AssignorControllerCreate201 = {

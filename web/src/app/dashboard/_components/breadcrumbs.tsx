@@ -42,8 +42,6 @@ export function Breadcrumbs({ segments }: { segments: string[] }) {
     const isLastSegment = segments.length - 1 === index
     const breadcrumb = formattedPaths[segment as Paths] || segment
 
-    console.log(segment)
-
     return (
       <Fragment key={segment}>
         <BreadcrumbSeparator />

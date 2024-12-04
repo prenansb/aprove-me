@@ -52,7 +52,7 @@
     },
     "/integrations/assignor/list": {
       "get": {
-        "operationId": "AssignorController_listAll",
+        "operationId": "listAssignors",
         "summary": "Get All Assignors",
         "parameters": [],
         "responses": {
@@ -61,24 +61,43 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "document": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
-                      },
-                      "phone": {
-                        "type": "string"
-                      },
-                      "name": {
-                        "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "document": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "lastPage": {
+                          "type": "number"
+                        }
                       }
                     }
                   }
@@ -288,6 +307,70 @@
         "responses": {
           "201": {
             "description": "Payable created successfully."
+          }
+        },
+        "tags": [
+          "Payables"
+        ]
+      }
+    },
+    "/integrations/payable/list": {
+      "get": {
+        "operationId": "listPayables",
+        "summary": "Get All Payables",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Payables retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "number"
+                          },
+                          "emissionDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "assignor": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "lastPage": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [

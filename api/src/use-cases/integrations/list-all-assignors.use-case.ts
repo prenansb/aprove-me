@@ -8,7 +8,7 @@ export class ListAllAssignorsUseCase {
     private readonly assignorRepository: AssignorRepository
   ) {}
 
-  async exec() {
-    return await this.assignorRepository.listAll()
+  async exec({ page = 1, limit = 10 }: { page?: number; limit?: number }) {
+    return await this.assignorRepository.listAll({ page, limit })
   }
 }

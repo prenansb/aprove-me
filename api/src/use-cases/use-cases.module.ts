@@ -10,6 +10,7 @@ import { GetAssignorByIdUseCase } from '@/use-cases/integrations/get-assignor-by
 import { GetPayableByIdUseCase } from '@/use-cases/integrations/get-payable-by-id.use-case'
 import { GetUserUseCase } from '@/use-cases/integrations/get-user.use-case'
 import { ListAllAssignorsUseCase } from '@/use-cases/integrations/list-all-assignors.use-case'
+import { ListAllPayablesUseCase } from '@/use-cases/integrations/list-all-payables.use-case'
 import { UpdateAssignorUseCase } from '@/use-cases/integrations/update-assignor.use-case'
 import { UpdatePayableUseCase } from '@/use-cases/integrations/update-payable.use-case'
 import { Module } from '@nestjs/common'
@@ -29,6 +30,7 @@ import { Module } from '@nestjs/common'
     GetUserUseCase,
     CreateUserUseCase,
     ListAllAssignorsUseCase,
+    ListAllPayablesUseCase,
   ],
   exports: [
     CreatePayableAndAssignorUseCase,
@@ -43,6 +45,7 @@ import { Module } from '@nestjs/common'
     GetUserUseCase,
     CreateUserUseCase,
     ListAllAssignorsUseCase,
+    ListAllPayablesUseCase,
   ],
 })
 export class UseCasesModule {}

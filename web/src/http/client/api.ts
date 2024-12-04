@@ -25,7 +25,6 @@ import type {
   AssignorControllerCreate201,
   AssignorControllerDelete200,
   AssignorControllerGetById200,
-  AssignorControllerListAll200Item,
   AssignorControllerUpdate200,
   AuthDto,
   Authenticate200,
@@ -33,6 +32,8 @@ import type {
   CreateAssignorDto,
   CreatePayableAndAssignorDto,
   CreatePayableDto,
+  ListAssignors200,
+  ListPayables200,
   UpdateAssignorDto,
   UpdatePayableDto,
 } from './api.schemas'
@@ -123,82 +124,73 @@ export const useAssignorControllerCreate = <
 /**
  * @summary Get All Assignors
  */
-export const getAssignorControllerListAllUrl = () => {
+export const getListAssignorsUrl = () => {
   return `/integrations/assignor/list`
 }
 
-export const assignorControllerListAll = async (
-  options?: RequestInit,
-): Promise<AssignorControllerListAll200Item[]> => {
-  return http<Promise<AssignorControllerListAll200Item[]>>(
-    getAssignorControllerListAllUrl(),
-    {
-      ...options,
-      method: 'GET',
-    },
-  )
+export const listAssignors = async (options?: RequestInit): Promise<ListAssignors200> => {
+  return http<Promise<ListAssignors200>>(getListAssignorsUrl(), {
+    ...options,
+    method: 'GET',
+  })
 }
 
-export const getAssignorControllerListAllQueryKey = () => {
+export const getListAssignorsQueryKey = () => {
   return [`/integrations/assignor/list`] as const
 }
 
-export const getAssignorControllerListAllQueryOptions = <
-  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+export const getListAssignorsQueryOptions = <
+  TData = Awaited<ReturnType<typeof listAssignors>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof listAssignors>>, TError, TData>
   >
   request?: SecondParameter<typeof http>
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getAssignorControllerListAllQueryKey()
+  const queryKey = queryOptions?.queryKey ?? getListAssignorsQueryKey()
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof assignorControllerListAll>>> = ({
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listAssignors>>> = ({
     signal,
-  }) => assignorControllerListAll({ signal, ...requestOptions })
+  }) => listAssignors({ signal, ...requestOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof assignorControllerListAll>>,
+    Awaited<ReturnType<typeof listAssignors>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type AssignorControllerListAllQueryResult = NonNullable<
-  Awaited<ReturnType<typeof assignorControllerListAll>>
+export type ListAssignorsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listAssignors>>
 >
-export type AssignorControllerListAllQueryError = unknown
+export type ListAssignorsQueryError = unknown
 
-export function useAssignorControllerListAll<
-  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+export function useListAssignors<
+  TData = Awaited<ReturnType<typeof listAssignors>>,
   TError = unknown,
 >(options: {
   query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof listAssignors>>, TError, TData>
   > &
     Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof assignorControllerListAll>>,
-        TError,
-        TData
-      >,
+      DefinedInitialDataOptions<Awaited<ReturnType<typeof listAssignors>>, TError, TData>,
       'initialData'
     >
   request?: SecondParameter<typeof http>
 }): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useAssignorControllerListAll<
-  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+export function useListAssignors<
+  TData = Awaited<ReturnType<typeof listAssignors>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof listAssignors>>, TError, TData>
   > &
     Pick<
       UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof assignorControllerListAll>>,
+        Awaited<ReturnType<typeof listAssignors>>,
         TError,
         TData
       >,
@@ -206,12 +198,12 @@ export function useAssignorControllerListAll<
     >
   request?: SecondParameter<typeof http>
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useAssignorControllerListAll<
-  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+export function useListAssignors<
+  TData = Awaited<ReturnType<typeof listAssignors>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof listAssignors>>, TError, TData>
   >
   request?: SecondParameter<typeof http>
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
@@ -219,16 +211,16 @@ export function useAssignorControllerListAll<
  * @summary Get All Assignors
  */
 
-export function useAssignorControllerListAll<
-  TData = Awaited<ReturnType<typeof assignorControllerListAll>>,
+export function useListAssignors<
+  TData = Awaited<ReturnType<typeof listAssignors>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof assignorControllerListAll>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof listAssignors>>, TError, TData>
   >
   request?: SecondParameter<typeof http>
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getAssignorControllerListAllQueryOptions(options)
+  const queryOptions = getListAssignorsQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>
@@ -717,6 +709,115 @@ export const usePayableControllerCreate = <
   const mutationOptions = getPayableControllerCreateMutationOptions(options)
 
   return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get All Payables
+ */
+export const getListPayablesUrl = () => {
+  return `/integrations/payable/list`
+}
+
+export const listPayables = async (options?: RequestInit): Promise<ListPayables200> => {
+  return http<Promise<ListPayables200>>(getListPayablesUrl(), {
+    ...options,
+    method: 'GET',
+  })
+}
+
+export const getListPayablesQueryKey = () => {
+  return [`/integrations/payable/list`] as const
+}
+
+export const getListPayablesQueryOptions = <
+  TData = Awaited<ReturnType<typeof listPayables>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof listPayables>>, TError, TData>
+  >
+  request?: SecondParameter<typeof http>
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getListPayablesQueryKey()
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listPayables>>> = ({ signal }) =>
+    listPayables({ signal, ...requestOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listPayables>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type ListPayablesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listPayables>>
+>
+export type ListPayablesQueryError = unknown
+
+export function useListPayables<
+  TData = Awaited<ReturnType<typeof listPayables>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof listPayables>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<Awaited<ReturnType<typeof listPayables>>, TError, TData>,
+      'initialData'
+    >
+  request?: SecondParameter<typeof http>
+}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useListPayables<
+  TData = Awaited<ReturnType<typeof listPayables>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof listPayables>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof listPayables>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >
+  request?: SecondParameter<typeof http>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useListPayables<
+  TData = Awaited<ReturnType<typeof listPayables>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof listPayables>>, TError, TData>
+  >
+  request?: SecondParameter<typeof http>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get All Payables
+ */
+
+export function useListPayables<
+  TData = Awaited<ReturnType<typeof listPayables>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof listPayables>>, TError, TData>
+  >
+  request?: SecondParameter<typeof http>
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getListPayablesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
 }
 
 /**

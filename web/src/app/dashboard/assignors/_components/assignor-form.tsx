@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,8 +25,10 @@ export type AssignorFormSchema = z.infer<typeof formSchema>
 
 export function AssignorForm({
   onSubmit,
+  onCancel,
 }: {
   onSubmit: (data: AssignorFormSchema) => void
+  onCancel: () => void
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,7 +42,7 @@ export function AssignorForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <FormField
           control={form.control}
           name="name"
@@ -51,7 +52,6 @@ export function AssignorForm({
               <FormControl>
                 <Input placeholder="Pedro" {...field} />
               </FormControl>
-              {/* <FormDescription>Enter the name of the assignor.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -65,9 +65,6 @@ export function AssignorForm({
               <FormControl>
                 <Input placeholder="000.000.000-00" {...field} />
               </FormControl>
-              {/* <FormDescription>
-                Enter the document number (e.g., tax ID, registration number).
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -81,9 +78,7 @@ export function AssignorForm({
               <FormControl>
                 <Input placeholder="prenansb@gmail.com" {...field} />
               </FormControl>
-              {/* <FormDescription>
-                Enter the document number (e.g., tax ID, registration number).
-              </FormDescription> */}
+
               <FormMessage />
             </FormItem>
           )}
@@ -97,14 +92,17 @@ export function AssignorForm({
               <FormControl>
                 <Input placeholder="085987889257" {...field} />
               </FormControl>
-              {/* <FormDescription>
-                Enter the document number (e.g., tax ID, registration number).
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Create Assignor</Button>
+        <div className="mt-4 flex justify-end gap-4">
+          <Button onClick={onCancel} variant="outline" type="button">
+            Cancelar
+          </Button>
+
+          <Button type="submit">Criar cedente</Button>
+        </div>
       </form>
     </Form>
   )

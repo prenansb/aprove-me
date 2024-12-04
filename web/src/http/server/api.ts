@@ -10,13 +10,14 @@ import type {
   AssignorControllerCreate201,
   AssignorControllerDelete200,
   AssignorControllerGetById200,
-  AssignorControllerListAll200Item,
   AssignorControllerUpdate200,
   AuthDto,
   Authenticate200,
   CreateAssignorDto,
   CreatePayableAndAssignorDto,
   CreatePayableDto,
+  ListAssignors200,
+  ListPayables200,
   UpdateAssignorDto,
   UpdatePayableDto,
 } from './api.schemas'
@@ -43,20 +44,15 @@ export const assignorControllerCreate = async (
 /**
  * @summary Get All Assignors
  */
-export const getAssignorControllerListAllUrl = () => {
+export const getListAssignorsUrl = () => {
   return `/integrations/assignor/list`
 }
 
-export const assignorControllerListAll = async (
-  options?: RequestInit,
-): Promise<AssignorControllerListAll200Item[]> => {
-  return http<Promise<AssignorControllerListAll200Item[]>>(
-    getAssignorControllerListAllUrl(),
-    {
-      ...options,
-      method: 'GET',
-    },
-  )
+export const listAssignors = async (options?: RequestInit): Promise<ListAssignors200> => {
+  return http<Promise<ListAssignors200>>(getListAssignorsUrl(), {
+    ...options,
+    method: 'GET',
+  })
 }
 
 /**
@@ -151,6 +147,20 @@ export const payableControllerCreate = async (
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(createPayableDto),
+  })
+}
+
+/**
+ * @summary Get All Payables
+ */
+export const getListPayablesUrl = () => {
+  return `/integrations/payable/list`
+}
+
+export const listPayables = async (options?: RequestInit): Promise<ListPayables200> => {
+  return http<Promise<ListPayables200>>(getListPayablesUrl(), {
+    ...options,
+    method: 'GET',
   })
 }
 

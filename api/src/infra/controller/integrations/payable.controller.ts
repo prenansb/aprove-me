@@ -1,11 +1,13 @@
 import { CreatePayableAndAssignorDto } from '@/infra/dtos/create-payable-and-assignor.dto'
 import { CreatePayableDto } from '@/infra/dtos/create-payable.dto'
 import { IdParamDto } from '@/infra/dtos/general.dto'
+import { ListDto } from '@/infra/dtos/list.dto'
 import { UpdatePayableDto } from '@/infra/dtos/update-payable.dto'
 import { CreatePayableAndAssignorUseCase } from '@/use-cases/integrations/create-payable-and-assignor.use-case'
 import { CreatePayableUseCase } from '@/use-cases/integrations/create-payable.use-case'
 import { DeletePayableUseCase } from '@/use-cases/integrations/delete-payable.use-case'
 import { GetPayableByIdUseCase } from '@/use-cases/integrations/get-payable-by-id.use-case'
+import { ListAllPayablesUseCase } from '@/use-cases/integrations/list-all-payables.use-case'
 import { UpdatePayableUseCase } from '@/use-cases/integrations/update-payable.use-case'
 import {
   Body,
@@ -16,11 +18,13 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common'
 import {
   ApiBody,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
@@ -38,7 +42,9 @@ export class PayableController {
     @Inject(UpdatePayableUseCase)
     private readonly updatePayableUseCase: UpdatePayableUseCase,
     @Inject(DeletePayableUseCase)
-    private readonly deletePayableUseCase: DeletePayableUseCase
+    private readonly deletePayableUseCase: DeletePayableUseCase,
+    @Inject(ListAllPayablesUseCase)
+    private readonly listAllPayablesUseCase: ListAllPayablesUseCase
   ) {}
 
   @Post('/')
@@ -67,6 +73,55 @@ export class PayableController {
     const payable = data
 
     return await this.createPayableUseCase.exec(payable)
+  }
+
+  @Get('/list')
+  @ApiOperation({ summary: 'Get All Payables', operationId: 'listPayables' })
+  @ApiQuery({ type: ListDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Payables retrieved successfully.',
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              value: { type: 'number' },
+              emissionDate: { type: 'string', format: 'date-time' },
+              assignor: {
+                type: 'object',
+                properties: { name: { type: 'string' } },
+              },
+            },
+          },
+        },
+        meta: {
+          type: 'object',
+          properties: {
+            total: { type: 'number' },
+            page: { type: 'number' },
+            lastPage: { type: 'number' },
+          },
+        },
+      },
+    },
+  })
+  async listAll(@Query() query: ListDto) {
+    try {
+      const payable = await this.listAllPayablesUseCase.exec({
+        page: query.page ? Number(query.page) : 1,
+        limit: query.limit ? Number(query.limit) : 10,
+      })
+      return payable
+    } catch (e) {
+      return {
+        message: e.message,
+      }
+    }
   }
 
   @Get('/:id')

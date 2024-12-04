@@ -1,7 +1,34 @@
-import Link from 'next/link'
-import { NewPayableDialog } from '@/components/new-payable-dialog'
+'use client'
+
+import { useState } from 'react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 import {
   Table,
   TableBody,
@@ -10,73 +37,155 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Eye, Pencil, Trash2 } from 'lucide-react'
+import { payableControllerDelete, useListPayables } from '@/http/client/api'
+import { Eye, MoreVertical, Pencil, Plus, Trash2 } from 'lucide-react'
+import { NewPayableDialog } from './_components/new-payable-dialog'
 
-async function getPayables() {
-  // This is a mock function. Replace with actual API call.
-  return [
-    { id: 1, value: 1000, emissionDate: '2023-06-01', status: 'Pending' },
-    { id: 2, value: 2000, emissionDate: '2023-06-02', status: 'Paid' },
-    { id: 3, value: 3000, emissionDate: '2023-06-03', status: 'Overdue' },
-  ]
-}
+export default function Payables() {
+  const [currentPage, setCurrentPage] = useState(1)
 
-export default async function Payables() {
-  const payables = await getPayables()
+  const { data: listResponse, refetch } = useListPayables({
+    query: {
+      queryKey: ['payables', currentPage],
+    },
+  })
+
+  async function handleDeletePayable(id: string) {
+    await payableControllerDelete(id)
+    await refetch()
+  }
+
+  const totalPages = listResponse?.meta?.lastPage ?? 1
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-4xl font-bold">Pagáveis</h1>
-        <NewPayableDialog>
-          <Button>Novo Pagável</Button>
+    <div className="px-4 pb-8">
+      <div className="mb-4 flex items-end justify-between">
+        <h3 className="text-lg font-semibold">Todos os Pagáveis</h3>
+        <NewPayableDialog currentPage={currentPage}>
+          <Button className="ml-auto">
+            <Plus className="mr-2 h-4 w-4" />
+            Novo Pagável
+          </Button>
         </NewPayableDialog>
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Todos os Pagáveis</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Valor</TableHead>
-                <TableHead>Data de Emissão</TableHead>
-                <TableHead>Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {payables.map(payable => (
-                <TableRow key={payable.id}>
-                  <TableCell>{payable.id}</TableCell>
-                  <TableCell>${payable.value.toFixed(2)}</TableCell>
-                  <TableCell>
-                    {new Date(payable.emissionDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Link href={`/payables/${payable.id}`}>
-                        <Button variant="outline" size="sm">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                      <Link href={`/payables/${payable.id}/edit`}>
-                        <Button variant="outline" size="sm">
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                      <Button variant="outline" size="sm">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
+      <div className="flex flex-col py-2">
+        <Card>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Id</TableHead>
+                  <TableHead>Valor</TableHead>
+                  <TableHead>Data de Emissão</TableHead>
+                  <TableHead>Cedente</TableHead>
                 </TableRow>
+              </TableHeader>
+              <TableBody>
+                {listResponse?.data?.map(payable => (
+                  <TableRow key={payable.id}>
+                    <TableCell className="w-[120px] truncate text-left">
+                      <span className="inline-block w-[15ch] overflow-hidden text-ellipsis">
+                        {payable.id}
+                      </span>
+                    </TableCell>
+                    <TableCell className="w-[180px] text-left">
+                      {new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      }).format(payable.value ?? 0)}
+                    </TableCell>
+                    <TableCell className="w-[250px] text-left">
+                      {new Date(payable.emissionDate ?? '').toLocaleDateString('pt-BR')}
+                    </TableCell>
+                    <TableCell className="text-left">{payable.assignor?.name}</TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button className="p-2" type="button">
+                            <MoreVertical className="h-4 w-4" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Eye className="mr-2 h-4 w-4" />
+                            Visualizar
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Editar
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <AlertDialog>
+                            <AlertDialogTrigger className="w-full text-destructive hover:bg-none">
+                              <DropdownMenuItem
+                                className="hover:text-destructive"
+                                onSelect={e => e.preventDefault()}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Excluir
+                              </DropdownMenuItem>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Excluir pagável</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Tem certeza que deseja excluir este pagável? Esta ação
+                                  não pode ser desfeita.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleDeletePayable(payable.id ?? '')}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Excluir
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+        <div className="ml-auto py-4">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                />
+              </PaginationItem>
+
+              {[...Array(totalPages)].map((_, i) => (
+                <PaginationItem key={i + 1}>
+                  <PaginationLink
+                    onClick={() => setCurrentPage(i + 1)}
+                    isActive={currentPage === i + 1}
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
               ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  className={
+                    currentPage === totalPages ? 'pointer-events-none opacity-50' : ''
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      </div>
     </div>
   )
 }

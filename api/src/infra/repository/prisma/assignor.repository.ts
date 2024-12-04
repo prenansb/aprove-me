@@ -25,8 +25,25 @@ export class AssignorRepository {
     return assignor
   }
 
-  async listAll() {
-    return await this.prisma.assignor.findMany()
+  async listAll({ page, limit }: { page: number; limit: number }) {
+    const skip = (page - 1) * limit
+
+    const [total, assignors] = await Promise.all([
+      this.prisma.assignor.count(),
+      await this.prisma.assignor.findMany({
+        skip,
+        take: limit,
+      }),
+    ])
+
+    return {
+      data: assignors,
+      meta: {
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
+      },
+    }
   }
 
   async update({ id, data }: { id: string; data: UpdateAssignorDto }) {

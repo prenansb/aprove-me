@@ -1,3 +1,7 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -16,17 +20,19 @@ export function NavProjects({
     icon: LucideIcon
   }[]
 }) {
+  const pathname = usePathname()
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map(item => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
+            <SidebarMenuButton isActive={pathname === item.url} asChild>
+              <Link href={item.url}>
                 <item.icon />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}

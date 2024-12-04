@@ -3,50 +3,48 @@
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
-import { CalendarIcon, Check, ChevronsUpDown } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-} from './ui/command'
-import { useAssignorControllerListAll } from '@/http/client/api'
-import { CurrencyInput } from './ui/currency-input'
+} from '@/components/ui/command'
+import { CurrencyInput } from '@/components/ui/currency-input'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useListAssignors } from '@/http/client/api'
+import { cn } from '@/lib/utils'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { CalendarIcon, Check, ChevronsUpDown } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
 const formSchema = z.object({
-  value: z
-    .number()
-    .min(0.01, 'Value must be greater than 0')
-    .multipleOf(0.01, 'Value can only have up to 2 decimal places'),
-  emissionDate: z.string().min(1, 'Emission date is required'),
-  assignorId: z.string().min(1, 'Assignor is required'),
+  value: z.string(),
+  emissionDate: z.date(),
+  assignorId: z.string().min(1),
 })
 
 export type PayableFormData = z.infer<typeof formSchema>
 
 export function PayableForm({
   onSubmit,
+  onCancel,
 }: {
   onSubmit: (data: PayableFormData) => void
+  onCancel: () => void
 }) {
-  const { data: assignors = [] } = useAssignorControllerListAll()
+  const { data: assignors = [] } = useListAssignors()
 
   const form = useForm<PayableFormData>({
     resolver: zodResolver(formSchema),
@@ -59,7 +57,7 @@ export function PayableForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <FormField
           control={form.control}
           name="value"
@@ -67,16 +65,8 @@ export function PayableForm({
             <FormItem>
               <FormLabel>Valor</FormLabel>
               <FormControl>
-                <CurrencyInput
-                  name={field.name}
-                  placeholder="R$ 0,00"
-                  prefix="R$ "
-                  decimalsLimit={2}
-                  decimalSeparator=","
-                  groupSeparator="."
-                />
+                <CurrencyInput placeholder="R$ 0,00" {...field} />
               </FormControl>
-              <FormDescription>Insira um valor em reais.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -98,9 +88,9 @@ export function PayableForm({
                       )}
                     >
                       {field.value ? (
-                        format(field.value, 'PPP')
+                        format(field.value, 'dd/MM/yyyy', { locale: ptBR })
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Selecione uma data</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -108,15 +98,14 @@ export function PayableForm({
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
+                    locale={ptBR}
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={date => date > new Date() || date < new Date('1900-01-01')}
                     initialFocus
                   />
                 </PopoverContent>
               </Popover>
-              <FormDescription>A data que o pagável foi emitido.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -139,7 +128,8 @@ export function PayableForm({
                       )}
                     >
                       {field.value
-                        ? assignors.find(assignor => assignor.id === field.value)?.name
+                        ? assignors.data?.find(assignor => assignor.id === field.value)
+                            ?.name
                         : 'Select assignor'}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -151,7 +141,7 @@ export function PayableForm({
                     <CommandList>
                       <CommandEmpty>No assignor found.</CommandEmpty>
                       <CommandGroup>
-                        {assignors.map(assignor => (
+                        {assignors.data?.map(assignor => (
                           <CommandItem
                             value={assignor.id}
                             key={assignor.id}
@@ -173,12 +163,17 @@ export function PayableForm({
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormDescription>Select the assignor for this payable.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Criar Pagável</Button>
+        <div className="mt-4 flex justify-end gap-4">
+          <Button onClick={onCancel} variant="outline" type="button">
+            Cancelar
+          </Button>
+
+          <Button type="submit">Criar pagável</Button>
+        </div>
       </form>
     </Form>
   )

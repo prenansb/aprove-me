@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsNumber, IsUUID } from 'class-validator'
+import { IsDateString, IsNotEmpty, IsNumber, IsUUID } from 'class-validator'
 
 export class CreatePayableDto {
   @IsNotEmpty()
@@ -6,7 +6,7 @@ export class CreatePayableDto {
   value: number
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   emissionDate: Date
 
   @IsNotEmpty()

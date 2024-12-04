@@ -86,7 +86,7 @@ function Root({ className, children, ...props }: RootProps) {
           // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange#:~:text=Note%20that%20according,not%20support%20selection%22.
           try {
             input.setSelectionRange(cursorPosition, cursorPosition)
-          } catch (e) { }
+          } catch (e) {}
           input.focus()
         })
       }}

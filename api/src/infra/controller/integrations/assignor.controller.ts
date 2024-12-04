@@ -1,5 +1,6 @@
 import { CreateAssignorDto } from '@/infra/dtos/create-assignor.dto'
 import { IdParamDto } from '@/infra/dtos/general.dto'
+import { ListDto } from '@/infra/dtos/list.dto'
 import { UpdateAssignorDto } from '@/infra/dtos/update-assignor.dto'
 import { CreateAssignorUseCase } from '@/use-cases/integrations/create-assignor.use-case'
 import { DeleteAssignorUseCase } from '@/use-cases/integrations/delete-assignor.use-case'
@@ -15,11 +16,13 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common'
 import {
   ApiBody,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
@@ -52,9 +55,9 @@ export class AssignorController {
         document: { type: 'string' },
         email: { type: 'string' },
         phone: { type: 'string' },
-        name: { type: 'string' }
-      }
-    }
+        name: { type: 'string' },
+      },
+    },
   })
   @ApiBody({ type: CreateAssignorDto })
   async create(@Body() data: CreateAssignorDto) {
@@ -62,27 +65,45 @@ export class AssignorController {
   }
 
   @Get('/list')
-  @ApiOperation({ summary: 'Get All Assignors' })
+  @ApiOperation({ summary: 'Get All Assignors', operationId: 'listAssignors' })
+  @ApiQuery({ type: ListDto })
   @ApiResponse({
     status: 200,
     description: 'Assignors retrieved successfully.',
     schema: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          id: { type: 'string' },
-          document: { type: 'string' },
-          email: { type: 'string' },
-          phone: { type: 'string' },
-          name: { type: 'string' }
-        }
-      }
-    }
+      type: 'object',
+      properties: {
+        data: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              document: { type: 'string' },
+              email: { type: 'string' },
+              phone: { type: 'string' },
+              name: { type: 'string' },
+            },
+          },
+        },
+        meta: {
+          type: 'object',
+          properties: {
+            total: { type: 'number' },
+            page: { type: 'number' },
+            lastPage: { type: 'number' },
+          },
+        },
+      },
+    },
   })
-  async listAll() {
+  async listAll(@Query() query: ListDto) {
     try {
-      const assignor = await this.listAllAssignorsUseCase.exec()
+      const assignor = await this.listAllAssignorsUseCase.exec({
+        page: query.page ? Number(query.page) : 1,
+        limit: query.limit ? Number(query.limit) : 10,
+      })
+
       return assignor
     } catch (e) {
       return {
@@ -103,9 +124,9 @@ export class AssignorController {
         document: { type: 'string' },
         email: { type: 'string' },
         phone: { type: 'string' },
-        name: { type: 'string' }
-      }
-    }
+        name: { type: 'string' },
+      },
+    },
   })
   @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async getById(@Param() { id }: IdParamDto) {
@@ -131,9 +152,9 @@ export class AssignorController {
         document: { type: 'string' },
         email: { type: 'string' },
         phone: { type: 'string' },
-        name: { type: 'string' }
-      }
-    }
+        name: { type: 'string' },
+      },
+    },
   })
   @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async update(@Param() { id }: IdParamDto, @Body() data: UpdateAssignorDto) {
@@ -152,9 +173,9 @@ export class AssignorController {
         document: { type: 'string' },
         email: { type: 'string' },
         phone: { type: 'string' },
-        name: { type: 'string' }
-      }
-    }
+        name: { type: 'string' },
+      },
+    },
   })
   @ApiParam({ name: 'id', type: String, description: 'Assignor Id' })
   async delete(@Param() { id }: IdParamDto) {
