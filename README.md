@@ -4,6 +4,9 @@
 
 [https://aprove-me-z7ft.vercel.app/login](https://aprove-me-z7ft.vercel.app)
 
+*   `login`: aprovame
+*   `senha`: aprovame
+
 ## Funcionalidades Implementadas
 
 ### Back-end
