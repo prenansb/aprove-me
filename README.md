@@ -2,7 +2,7 @@
 
 ## Link do Projeto
 
-[https://aprove-me-z7ft.vercel.app/login](https://aprove-me-z7ft.vercel.app/login)
+[https://aprove-me-z7ft.vercel.app/login](https://aprove-me-z7ft.vercel.app)
 
 ## Funcionalidades Implementadas
 
@@ -77,7 +77,7 @@
     
 9.  **Acesse o projeto**
     *   Abra seu navegador e vá para [http://localhost:3000](http://localhost:3000) para acessar o front-end localmente.
-    *   Alternativamente, você pode acessar a versão hospedada em [https://aprove-me-z7ft.vercel.app/login](https://aprove-me-z7ft.vercel.app/login).
+    *   Alternativamente, você pode acessar a versão hospedada em [https://aprove-me-z7ft.vercel.app](https://aprove-me-z7ft.vercel.app/login).
 
 Notas Adicionais
 ----------------
