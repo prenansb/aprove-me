@@ -45,8 +45,8 @@ export function LoginForm() {
   }
 
   return (
-    <div className="w-full px-[88px]">
-      <h1 className="mb-14 text-center text-[22px]/none font-medium text-[#212121] hidden md:block">
+    <div className="w-full px-6 md:px-[88px]">
+      <h1 className="mb-14 hidden text-center text-[22px]/none font-medium text-[#212121] md:block">
         Acesse sua conta
       </h1>
       <Form {...form}>
