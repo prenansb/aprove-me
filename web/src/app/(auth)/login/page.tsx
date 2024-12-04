@@ -4,8 +4,8 @@ import * as Svg from './svgs'
 
 export default function Page() {
   return (
-    <main className="flex h-full items-center">
-      <div className="h-full flex-1 bg-[linear-gradient(323.43deg,#0B1551_0%,#070E36_91.69%)]">
+    <main className="flex h-full items-center justify-center">
+      <div className="h-full flex-1 bg-[linear-gradient(323.43deg,#0B1551_0%,#070E36_91.69%)] hidden md:block">
         <div className="relative flex h-full items-center justify-center">
           <div className="absolute left-12 top-12 h-[60px] w-[50px]">
             <Image
