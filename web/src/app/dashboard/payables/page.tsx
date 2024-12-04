@@ -70,7 +70,7 @@ export default function Payables() {
       </div>
       <div className="flex flex-col py-2">
         <Card>
-          <CardContent>
+          <CardContent className="p-0 md:p-6 md:pt-0">
             <Table>
               <TableHeader>
                 <TableRow>
